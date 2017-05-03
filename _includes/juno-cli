@@ -1,0 +1,71 @@
+juno-cli
+
+release note:
+yarn.app.mapreduce.am.resource.mb 2560 --> 4096
+
+mapreduce.jobhistory.webapp.address lvshshdc2en0006.lvs.ebay.com:19888 --> lvshshdc2en0006.lvs.ebay.com:51111
+
+yarn.app.mapreduce.am.command-opts -Xmx2048m -Dhdp.version=${hdp.version} --> -Xmx3276m -Dhdp.version=${hdp.version}
+
+new entry
+mapreduce.jobhistory.webapp.https.address lvshshdc2en0006.lvs.ebay.com:51111
+
+
+
+yarn-site.xml
+
+yarn.scheduler.minimum-allocation-mb  2048 --> 256
+
+yarn.resourcemanager.webapp.https.address lvshshdc2en0003.lvs.ebay.com:8090 --> lvshshdc2en0003.lvs.ebay.com:50030
+yarn.resourcemanager.webapp.https.address.rm1  lvshshdc2en0003.lvs.ebay.com:8090 --> lvshshdc2en0003.lvs.ebay.com:50030
+yarn.resourcemanager.webapp.https.address.rm2  lvshshdc2en0004.lvs.ebay.com:8090 --> lvshshdc2en0004.lvs.ebay.com:50030
+
+
+spark
+spark-defaults.conf
+
+spark.history.ui.port 18080 --> 50070
+spark.yarn.historyServer.address lvshshdc2en0006.lvs.ebay.com:18080 --> 50070
+
+
+spark-env.sh
+export HDP_VERSION=2.4.2.0-258
+
+
+
+export HADOOP_HOME=/home/xinglwang/hdp-client/hadoop-2.7.1.2.4.2.0-258_v3
+export JAVA_HOME=/usr/java/latest
+export HIVE_HOME=/home/xinglwang/hdp-client/apache-hive-1.2.1000.2.4.2.0-258-bin_v3
+export TEZ_HOME=/home/xinglwang/hdp-client/tez
+export TEZ_JARS=/home/xinglwang/hdp-client/tez
+export HADOOP_CONF_DIR=/home/xinglwang/hdp-client/hadoop/conf
+export HADOOP_YARN_HOME=/home/xinglwang/hdp-client/hadoop-yarn
+
+
+
+
+/home/xinglwang/hdp-client/hadoop/bin/hadoop jar ./hdp-client/hadoop-mapreduce/hadoop-mapreduce-examples-2.7.1.2.4.2.0-258.jar pi -D mapreduce.job.queuename=hdlq-data-sla 10 100
+
+
+
+export SPARK_CONF_DIR=/home/xinglwang/hdp-client/spark/conf
+export SPARK_HOME=/home/xinglwang/hdp-client/spark
+
+/home/xinglwang/hdp-client/spark/bin/spark-submit --class org.apache.spark.examples.SparkPi --master yarn --deploy-mode cluster --driver-memory 4g --executor-memory 2g --executor-cores 1 /home/xinglwang/hdp-client/spark/lib/spark-examples-1.6.1.2.4.2.0-258-hadoop2.7.1.2.4.2.0-258.jar 10
+
+
+
+apache-hive-1.2.1000.2.4.2.0-258-bin_v3
+hadoop-2.7.1.2.4.2.0-258_v3
+hbase-1.1.2.2.4.2.0-258_v3
+oozie-4.2.0.2.4.2.0-258_v3
+pig-0.15.0.2.4.2.0-258_v3
+spark-1.6.2-bin-scala2.11-hadoop2.7_v3
+tez-0.7.0.2.4.2.0-258_v3
+zookeeper-3.4.5.2.0.6.0-61_v3
+
+
+
+python reimage.py --fullformat --auth2fa --profname hadoop-datanode-centos6.7 --profvers 1.0.5 compute lvshshdc2dn0041.stratus.lvs.ebay.com
+
+python reimage.py --fullformat --auth2fa --profnamee hadoop-datanode-centos6.7 --profvers 1.0.6 compute hdc2-lvs03-0200-1304-001.stratus.lvs.ebay.com
